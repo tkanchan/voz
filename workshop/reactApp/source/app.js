@@ -6,16 +6,12 @@ var mapsapi = require( 'google-maps-api' )( 'AIzaSyBWhH-uk71JNIke2Qan2DD7WROEZ8b
 
 var map;
 
-var googleMaps;
-
 mapsapi().then( function( maps ) {
-
-	googleMaps = google.maps;
 
 	map = new google.maps.Map(document.getElementById('map'), {
 		center: {lat: -34.397, lng: 150.644},
 		zoom: 8,
-		mapTypeId: google.maps.MapTypeId.ROADMAP
+		disableDefaultUI: true
 	});
 
 	var marker = new google.maps.Marker({

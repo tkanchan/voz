@@ -19648,16 +19648,12 @@ var mapsapi = require('google-maps-api')('AIzaSyBWhH-uk71JNIke2Qan2DD7WROEZ8bBnx
 
 var map;
 
-var googleMaps;
-
 mapsapi().then(function (maps) {
-
-	googleMaps = google.maps;
 
 	map = new google.maps.Map(document.getElementById('map'), {
 		center: { lat: -34.397, lng: 150.644 },
 		zoom: 8,
-		mapTypeId: google.maps.MapTypeId.ROADMAP
+		disableDefaultUI: true
 	});
 
 	var marker = new google.maps.Marker({
@@ -19669,27 +19665,145 @@ mapsapi().then(function (maps) {
 
 ReactDOM.render(React.createElement(Application, null), document.getElementById('react-application'));
 
-},{"./components/Application.react":167,"google-maps-api":2,"react":165,"react-dom":10}],167:[function(require,module,exports){
-"use strict";
+},{"./components/Application.react":168,"google-maps-api":2,"react":165,"react-dom":10}],167:[function(require,module,exports){
+'use strict';
 
 var React = require('react');
 
-var Application = React.createClass({
-	displayName: "Application",
+var buttonStyle = {
+	fontSize: '20px',
+	color: '#fff',
+	paddingTop: '14px',
+	paddingLeft: '15px'
+};
+
+var backgroundStyle = {
+	margin: '25px 10px',
+	height: '50px',
+	width: '50px',
+	borderRadius: '100%',
+	backgroundColor: 'rgba(33, 192, 192,0.9)',
+	boxShadow: "0 0 5px 1px #888888",
+	display: 'block',
+	position: 'absolute',
+	bottom: '0'
+};
+
+var AddButton = React.createClass({
+	displayName: 'AddButton',
 
 	render: function render() {
 		return React.createElement(
-			"div",
-			{ className: "container-fluid" },
-			React.createElement(
-				"p",
-				null,
-				"This is the react app!"
-			)
+			'div',
+			{ className: 'addButton', style: backgroundStyle },
+			React.createElement('span', { className: 'glyphicon glyphicon-plus', style: buttonStyle, 'aria-hidden': 'true' })
+		);
+	}
+});
+
+module.exports = AddButton;
+
+},{"react":165}],168:[function(require,module,exports){
+'use strict';
+
+var React = require('react');
+var TopBar = require('./TopBar.react');
+var AddButton = require('./AddButton.react');
+
+var Application = React.createClass({
+	displayName: 'Application',
+
+	render: function render() {
+		return React.createElement(
+			'div',
+			{ className: 'root' },
+			React.createElement(TopBar, null),
+			React.createElement(AddButton, { style: 'position: fixed; bottom: 0;' })
 		);
 	}
 });
 
 module.exports = Application;
 
-},{"react":165}]},{},[166]);
+},{"./AddButton.react":167,"./TopBar.react":170,"react":165}],169:[function(require,module,exports){
+'use strict';
+
+var React = require('react');
+
+var searchStyle = {
+	width: '100%',
+	height: '24px',
+	borderRadius: '20px',
+	border: '1px solid #ccc',
+	backgroundColor: 'rgba(255,255,255,0.90)',
+	color: 'rgba(33, 192, 192, 1)'
+};
+
+var searchContainer = {
+	paddingTop: '12px'
+};
+
+var Search = React.createClass({
+	displayName: 'Search',
+
+	render: function render() {
+		return React.createElement(
+			'div',
+			{ className: 'search', style: searchContainer },
+			React.createElement('input', { type: 'text', style: searchStyle })
+		);
+	}
+});
+
+module.exports = Search;
+
+},{"react":165}],170:[function(require,module,exports){
+'use strict';
+
+var React = require('react');
+var Search = require('./Search.react');
+
+var topBarStyle = {
+	width: '100%',
+	height: '50px',
+	backgroundColor: 'rgba(33, 192, 192,0.9)',
+	boxShadow: "0 0 5px 1px #888888"
+};
+
+var menuIconStyle = {
+	fontSize: '20px',
+	color: '#fff',
+	paddingTop: '14px',
+	paddingLeft: '8px',
+	textAlign: 'center'
+};
+
+var TopBar = React.createClass({
+	displayName: 'TopBar',
+
+	render: function render() {
+		return React.createElement(
+			'div',
+			{ className: 'topBar', style: topBarStyle },
+			React.createElement(
+				'div',
+				{ className: 'col-xs-1' },
+				React.createElement('span', { className: 'glyphicon glyphicon-menu-hamburger', style: menuIconStyle, 'aria-hidden': 'true' })
+			),
+			React.createElement(
+				'div',
+				{ className: 'col-xs-10' },
+				React.createElement(Search, null)
+			),
+			React.createElement(
+				'div',
+				{ className: 'col-xs-1' },
+				React.createElement('span', { className: 'glyphicon glyphicon-search', style: menuIconStyle, 'aria-hidden': 'true' })
+			)
+		);
+	}
+});
+
+module.exports = TopBar;
+
+},{"./Search.react":169,"react":165}]},{},[166]);

@@ -45,6 +45,14 @@ body {
     width:100%;
 }
 
+input:focus {
+    outline: 0;
+}
+
+input {
+    padding: 2px 8px;
+}
+
 /* Portrait layout (default) */
 .app {
     background:url(../img/logo.png) no-repeat center top; /* 170px x 200px */
@@ -76,6 +84,10 @@ h1 {
     overflow:visible;
     padding:0px;
     text-align:center;
+}
+
+.root {
+    height: 100%;
 }
 
 .event {
