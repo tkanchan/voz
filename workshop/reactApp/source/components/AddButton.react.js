@@ -8,7 +8,7 @@ var buttonStyle = {
 };
 
 var backgroundStyle = {
-	margin: '25px 10px',
+	margin: '30px 15px',
 	height: '50px',
 	width: '50px',
 	borderRadius: '100%',

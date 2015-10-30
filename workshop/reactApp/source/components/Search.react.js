@@ -15,10 +15,27 @@ var searchContainer = {
 
 var Search = React.createClass({ 
 
+	getInitialState: function() {
+		return {
+			searchKey: ''
+		}
+	},
+
+	setInputValue: function(inputValue) {
+		this.setState({
+			searchKey: inputValue
+		})
+	},
+
+	handleInputValueChange: function(event) {
+		var inputValue = event.target.value;
+		this.setInputValue(inputValue);
+	},
+
 	render: function () {
 		return (
 			<div className="search" style={searchContainer}>
-				<input type="text"  style={searchStyle} />
+				<input type="text"  style={searchStyle} onChange={this.handleInputValueChange} onAction={this.props.searchFunction(this.state.searchKey)} value={this.state.inputValue} />
 			</div>
 		);
 	}

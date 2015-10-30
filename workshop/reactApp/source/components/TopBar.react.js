@@ -13,7 +13,8 @@ var menuIconStyle = {
 	color: '#fff',
 	paddingTop: '14px',
 	paddingLeft: '8px',
-	textAlign: 'center'
+	textAlign: 'center',
+	cursor: 'pointer'
 };
 
 var TopBar = React.createClass({ 
@@ -21,8 +22,8 @@ var TopBar = React.createClass({
 	render: function () {
 		return (
 			<div className="topBar" style={topBarStyle} >
-				<div className="col-xs-1"><span className="glyphicon glyphicon-menu-hamburger" style={menuIconStyle} aria-hidden="true"></span></div>
-				<div className="col-xs-10"><Search /></div>
+				<div className="col-xs-1"><span className="glyphicon glyphicon-menu-hamburger" style={menuIconStyle} aria-hidden="true" onClick={this.props.toggleListView}></span></div>
+				<div className="col-xs-10"><Search searchFunction={this.props.search} /></div>
 				<div className="col-xs-1"><span className="glyphicon glyphicon-search" style={menuIconStyle} aria-hidden="true"></span></div>
 			</div>
 		);

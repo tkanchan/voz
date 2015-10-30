@@ -19678,7 +19678,7 @@ var buttonStyle = {
 };
 
 var backgroundStyle = {
-	margin: '25px 10px',
+	margin: '30px 15px',
 	height: '50px',
 	width: '50px',
 	borderRadius: '100%',
@@ -19709,23 +19709,130 @@ module.exports = AddButton;
 var React = require('react');
 var TopBar = require('./TopBar.react');
 var AddButton = require('./AddButton.react');
+var ListView = require('./ListView.react');
+
+var items = [{
+	title: "For sale!",
+	properties: [{ prop: "Name", val: "Tamal" }],
+	image: "http://foodnetwork.sndimg.com/content/dam/images/food/fullset/2011/11/14/0/FNM_120111-Tamale-Festival-007_s4x3.jpg.rend.sni12col.landscape.jpeg"
+}, {
+	title: "Food!",
+	properties: [{ prop: "Name", val: "Taco" }, { prop: "Price", val: "$12/ea." }]
+}];
 
 var Application = React.createClass({
 	displayName: 'Application',
 
+	getInitialState: function getInitialState() {
+		return {
+			listViewShown: false
+		};
+	},
+
+	showListView: function showListView() {
+		this.setState({
+			listViewShown: this.state.listViewShown ? false : true
+		});
+	},
+
+	search: function search(searchKey) {
+		console.log(searchKey); //implement searching have a default dataset and a searched/filtered dataset
+	},
+
 	render: function render() {
+		if (this.state.listViewShown) {
+			return React.createElement(
+				'div',
+				{ className: 'root' },
+				React.createElement(TopBar, { search: this.search, toggleListView: this.showListView }),
+				React.createElement(ListView, { items: items }),
+				React.createElement(AddButton, null)
+			);
+		}
 		return React.createElement(
 			'div',
 			{ className: 'root' },
-			React.createElement(TopBar, null),
-			React.createElement(AddButton, { style: 'position: fixed; bottom: 0;' })
+			React.createElement(TopBar, { search: this.search, toggleListView: this.showListView }),
+			React.createElement(AddButton, null)
 		);
 	}
 });
 
 module.exports = Application;
 
-},{"./AddButton.react":167,"./TopBar.react":170,"react":165}],169:[function(require,module,exports){
+},{"./AddButton.react":167,"./ListView.react":170,"./TopBar.react":172,"react":165}],169:[function(require,module,exports){
+"use strict";
+
+var React = require('react');
+
+var itemStyle = {
+	padding: "2px",
+	border: "1px solid #ccc",
+	borderRadius: "5px",
+	marginBottom: "6px"
+};
+
+var TopBar = React.createClass({
+	displayName: "TopBar",
+
+	getInitialState: function getInitialState() {
+		return {
+			data: this.props.data
+		};
+	},
+
+	render: function render() {
+		return React.createElement(
+			"div",
+			{ className: "item", style: itemStyle },
+			React.createElement(
+				"h4",
+				null,
+				this.state.data.title
+			)
+		);
+	}
+});
+
+module.exports = TopBar;
+
+},{"react":165}],170:[function(require,module,exports){
+'use strict';
+
+var React = require('react');
+var Item = require('./Item.react');
+
+var topBarStyle = {
+	width: '100%',
+	height: 'auto',
+	backgroundColor: '#fff',
+	boxShadow: "0 0 5px 1px #888888",
+	padding: "6px 6px 1px 6px"
+};
+
+var TopBar = React.createClass({
+	displayName: 'TopBar',
+
+	getInitialState: function getInitialState() {
+		return {
+			items: this.props.items
+		};
+	},
+
+	render: function render() {
+		return React.createElement(
+			'div',
+			{ className: 'list', style: topBarStyle },
+			this.state.items.map(function (data) {
+				return React.createElement(Item, { key: data.title, data: data });
+			})
+		);
+	}
+});
+
+module.exports = TopBar;
+
+},{"./Item.react":169,"react":165}],171:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
@@ -19746,18 +19853,35 @@ var searchContainer = {
 var Search = React.createClass({
 	displayName: 'Search',
 
+	getInitialState: function getInitialState() {
+		return {
+			searchKey: ''
+		};
+	},
+
+	setInputValue: function setInputValue(inputValue) {
+		this.setState({
+			searchKey: inputValue
+		});
+	},
+
+	handleInputValueChange: function handleInputValueChange(event) {
+		var inputValue = event.target.value;
+		this.setInputValue(inputValue);
+	},
+
 	render: function render() {
 		return React.createElement(
 			'div',
 			{ className: 'search', style: searchContainer },
-			React.createElement('input', { type: 'text', style: searchStyle })
+			React.createElement('input', { type: 'text', style: searchStyle, onChange: this.handleInputValueChange, onAction: this.props.searchFunction(this.state.searchKey), value: this.state.inputValue })
 		);
 	}
 });
 
 module.exports = Search;
 
-},{"react":165}],170:[function(require,module,exports){
+},{"react":165}],172:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
@@ -19767,7 +19891,8 @@ var topBarStyle = {
 	width: '100%',
 	height: '50px',
 	backgroundColor: 'rgba(33, 192, 192,0.9)',
-	boxShadow: "0 0 5px 1px #888888"
+	boxShadow: "0 0 5px 1px #888888",
+	cursor: 'pointer'
 };
 
 var menuIconStyle = {
@@ -19788,12 +19913,12 @@ var TopBar = React.createClass({
 			React.createElement(
 				'div',
 				{ className: 'col-xs-1' },
-				React.createElement('span', { className: 'glyphicon glyphicon-menu-hamburger', style: menuIconStyle, 'aria-hidden': 'true' })
+				React.createElement('span', { className: 'glyphicon glyphicon-menu-hamburger', style: menuIconStyle, 'aria-hidden': 'true', onClick: this.props.toggleListView })
 			),
 			React.createElement(
 				'div',
 				{ className: 'col-xs-10' },
-				React.createElement(Search, null)
+				React.createElement(Search, { searchFunction: this.props.search })
 			),
 			React.createElement(
 				'div',
@@ -19806,4 +19931,4 @@ var TopBar = React.createClass({
 
 module.exports = TopBar;
 
-},{"./Search.react":169,"react":165}]},{},[166]);
+},{"./Search.react":171,"react":165}]},{},[166]);
