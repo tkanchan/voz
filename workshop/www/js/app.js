@@ -1,169 +1,3 @@
-<<<<<<< HEAD
-var Header = React.createClass({
-    render: function () {
-        return (
-            <header className="bar bar-nav">
-                <a href="#" className={"icon icon-left-nav pull-left" + (this.props.back==="true"?"":" hidden")}></a>
-                <h1 className="title">{this.props.text}</h1>
-            </header>
-        );
-    }
-});
-
-var SearchBar = React.createClass({
-    getInitialState: function() {
-        return {searchKey: ""};
-    },
-    searchHandler: function(event) {
-        var searchKey = event.target.value;
-        this.setState({searchKey: searchKey});
-        this.props.searchHandler(searchKey);
-    },
-    render: function () {
-        return (
-            <div className="bar bar-standard bar-header-secondary">
-                <input type="search" value={this.state.symbol} onChange={this.searchHandler}/>
-            </div>
-
-        );
-    }
-});
-
-var EmployeeListItem = React.createClass({
-    render: function () {
-        return (
-            <li className="table-view-cell media">
-                <a href={"#employees/" + this.props.employee.id}>
-                    <img className="media-object small pull-left" src={"pics/" + this.props.employee.firstName + ".jpg" }/>
-                    {this.props.employee.firstName} {this.props.employee.lastName}
-                    <p>{this.props.employee.title}</p>
-                </a>
-            </li>
-        );
-    }
-});
-
-var EmployeeList = React.createClass({
-    render: function () {
-        var items = this.props.employees.map(function (employee) {
-            return (
-                <EmployeeListItem key={employee.id} employee={employee} />
-            );
-        });
-        return (
-            <ul  className="table-view">
-                {items}
-            </ul>
-        );
-    }
-});
-
-var HomePage = React.createClass({
-    render: function () {
-        return (
-            <div className={"page " + this.props.position}>
-                <Header text="Hot Items" back="false"/>
-                <SearchBar searchKey={this.props.searchKey} searchHandler={this.props.searchHandler}/>
-                <div className="content">
-                    <EmployeeList employees={this.props.employees}/>
-                </div>
-            </div>
-        );
-    }
-});
-
-var EmployeePage = React.createClass({
-    getInitialState: function() {
-        return {employee: {}};
-    },
-    componentDidMount: function() {
-        this.props.service.findById(this.props.employeeId).done(function(result) {
-            this.setState({employee: result});
-        }.bind(this));
-    },
-    render: function () {
-        return (
-            <div className={"page " + this.props.position}>
-                <Header text="Details" back="true"/>
-                <div className="card">
-                    <ul className="table-view">
-                        <li className="table-view-cell media">
-                            <img className="media-object big pull-left" src={"pics/" + this.state.employee.firstName + ".jpg" }/>
-                            <h1>{this.state.employee.firstName} {this.state.employee.lastName}</h1>
-                            <p>{this.state.employee.title}</p>
-                        </li>
-                        <li className="table-view-cell media">
-                            <a href={"tel:" + this.state.employee.officePhone} className="push-right">
-                                <span className="media-object pull-left icon icon-call"></span>
-                                <div className="media-body">
-                                Type
-                                    <p>{this.state.employee.officePhone}</p>
-                                </div>
-                            </a>
-                        </li>
-                        <li className="table-view-cell media">
-                            <a href={"tel:" + this.state.employee.mobilePhone} className="push-right">
-                                <span className="media-object pull-left icon icon-call"></span>
-                                <div className="media-body">
-                                Description
-                                    <p>{this.state.employee.mobilePhone}</p>
-                                </div>
-                            </a>
-                        </li>
-                        <li className="table-view-cell media">
-                            <a href={"sms:" + this.state.employee.mobilePhone} className="push-right">
-                                <span className="media-object pull-left icon icon-sms"></span>
-                                <div className="media-body">
-                                Recipe
-                                    <p>{this.state.employee.mobilePhone}</p>
-                                </div>
-                            </a>
-                        </li>
-                        <li className="table-view-cell media">
-                            <a href={"mailto:" + this.state.employee.email} className="push-right">
-                                <span className="media-object pull-left icon icon-email"></span>
-                                <div className="media-body">
-                                Links
-                                    <p>{this.state.employee.email}</p>
-                                </div>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        );
-    }
-});
-
-var App = React.createClass({
-    mixins: [PageSlider],
-    getInitialState: function() {
-        return {
-            searchKey: '',
-            employees: []
-        }
-    },
-    searchHandler: function(searchKey) {
-        employeeService.findByName(searchKey).done(function(employees) {
-            this.setState({
-                searchKey:searchKey,
-                employees: employees,
-                pages: [<HomePage key="list" searchHandler={this.searchHandler} searchKey={searchKey} employees={employees}/>]});
-        }.bind(this));
-    },
-    componentDidMount: function() {
-        router.addRoute('', function() {
-            this.slidePage(<HomePage key="list" searchHandler={this.searchHandler} searchKey={this.state.searchKey} employees={this.state.employees}/>);
-        }.bind(this));
-        router.addRoute('employees/:id', function(id) {
-            this.slidePage(<EmployeePage key="details" employeeId={id} service={employeeService}/>);
-        }.bind(this));
-        router.start();
-    }
-});
-
-React.render(<App/>, document.body);
-=======
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 // shim for using process in browser
 
@@ -19938,23 +19772,63 @@ var itemStyle = {
 	marginBottom: "6px"
 };
 
+var propStyle = {
+	color: "#aaa"
+};
+
+var imStyle = {
+	height: "70px",
+	padding: "2px",
+	paddingTop: "2px",
+	width: "70px",
+	marginBottom: "6px",
+	borderRadius: "100%",
+	textAlign: 'center'
+};
+
+var imageStyle = {};
+
+var container = {
+	display: "inline-block",
+	width: "100%"
+};
+
 var TopBar = React.createClass({
 	displayName: "TopBar",
 
 	getInitialState: function getInitialState() {
 		return {
-			data: this.props.data
+			data: this.props.data,
+			image: this.props.data.image ? this.props.data.image : "http://www.rigathisweek.lv/image/7e1518a5.70c3fb494"
 		};
 	},
 
 	render: function render() {
 		return React.createElement(
 			"div",
-			{ className: "item", style: itemStyle },
+			{ style: container },
 			React.createElement(
-				"h4",
-				null,
-				this.state.data.title
+				"div",
+				{ className: "col-xs-2", style: imageStyle },
+				React.createElement("image", { style: imStyle, src: this.state.image })
+			),
+			React.createElement(
+				"div",
+				{ className: "col-xs-10", style: itemStyle },
+				React.createElement(
+					"h4",
+					null,
+					this.state.data.title
+				),
+				this.state.data.properties.map(function (prop) {
+					return React.createElement(
+						"p",
+						{ style: propStyle },
+						prop.prop,
+						" | ",
+						prop.val
+					);
+				})
 			)
 		);
 	}
@@ -20057,8 +19931,7 @@ var topBarStyle = {
 	width: '100%',
 	height: '50px',
 	backgroundColor: 'rgba(33, 192, 192,0.9)',
-	boxShadow: "0 0 5px 1px #888888",
-	cursor: 'pointer'
+	boxShadow: "0 0 5px 1px #888888"
 };
 
 var menuIconStyle = {
@@ -20066,7 +19939,8 @@ var menuIconStyle = {
 	color: '#fff',
 	paddingTop: '14px',
 	paddingLeft: '8px',
-	textAlign: 'center'
+	textAlign: 'center',
+	cursor: 'pointer'
 };
 
 var TopBar = React.createClass({
@@ -20097,9 +19971,4 @@ var TopBar = React.createClass({
 
 module.exports = TopBar;
 
-<<<<<<< HEAD
 },{"./Search.react":171,"react":165}]},{},[166]);
-=======
-},{"./Search.react":169,"react":165}]},{},[166]);
->>>>>>> eb07507b4b94b39fe5db4f955570e1fc25d50b4e
->>>>>>> 6856b72fd69ee69337c9f0769167a091a677c583
