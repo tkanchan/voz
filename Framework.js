@@ -1,10 +1,8 @@
+import Voice from './Voice';
+
 export class Framework {
 
   	constructor() {
-  		this.map = new google.maps.Map(document.getElementById('map'), {
-		    zoom: 10,
-		    center: {lat: -33.9, lng: 151.2}
-	  	});
 
 	  	this.voices[] = null;
 
@@ -12,10 +10,16 @@ export class Framework {
 
 	  	this._location_ = { lat: null, lng: null} //set latitude and longitude of location
 
+      this.map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 10,
+        center: this._location_ //get the user's location and set that as the center of the map
+      });
+
   	}
 
-  	addVoice(title, ...props, image) {
-  		
+  	addVoice(title, image, props) {
+  		this.voices.push(new Voice(title, image, props, this._location_, this.map));
+
   		//DROP animation on marker in map
   	}
 

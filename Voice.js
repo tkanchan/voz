@@ -9,18 +9,29 @@
 	+ get mapMarker(): Marker(google)
 */
 
-import cloudinary from 'cloudinary';
+import Cloudinary from 'cloudinary';
+import google from 'google-maps';
 
 export class Voice {
 
-	constructor(title, ...properties, image) {
+	constructor(title, image, props, location, map) { //location must be object like: {lat: -33.890, lng: 151.274}
 		this.title = title;
 		//for every property insert into this.properties
 		this.image = image;
 		//upload to cloudinary
 
-		this.content = null; //set content to div thing to html from title etc. 
+		this.content = null; //set content to div thing to html from title etc.
 
+		this.marker = new google.maps.Marker({
+			position: location,
+			map: map,
+			animation: google.maps.Animation.DROP,
+			icon: image
+		}); 
+	}
+
+	get mapMarker() {
+		return this.marker;
 	}
 
 	get content() {
