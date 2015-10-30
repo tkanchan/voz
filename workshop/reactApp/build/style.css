@@ -1,0 +1,33 @@
+body {
+	background-color: #777;
+}
+
+h2 {
+	color: white;
+}
+
+button.btn-default{
+	border: none;
+	border-radius: 0;
+	background-color: #FF6600;
+	color: #fff;
+}
+
+button:hover.btn-default {
+	background-color: #FF5500;
+	color: #fff;
+}
+
+input.form-control {
+	border: 1px solid #FF6600;
+	color: white;
+	border-radius: 0;
+	background-color: rgba(255,255,255,0.1);
+}
+
+input:focus.form-control {
+	border: 1px solid #FF6600;
+	border-radius: 0;
+	color: #555;
+	background-color: rgba(255,255,255,0.8);
+}
