@@ -12,17 +12,11 @@ var topBarStyle = {
 
 var TopBar = React.createClass({ 
 
-	getInitialState: function() {
-		return {
-			items: this.props.items
-		}
-	},
-
 	render: function () {
 		return (
 			<div className="list" style={topBarStyle} >
 				{
-					this.state.items.map(function(data) {
+					this.props.items.map(function(data) {
 						return <Item key={data.title} data={data} />
 					})
 				}

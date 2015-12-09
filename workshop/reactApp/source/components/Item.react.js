@@ -52,7 +52,7 @@ var TopBar = React.createClass({
 					{
 						this.state.data.properties.map(function(prop) {
 							return (
-									<p style={propStyle}>{prop.prop} | {prop.val}</p>
+									<p key={prop.val} style={propStyle}>{prop.prop} | {prop.val}</p>
 								);
 						})
 					}

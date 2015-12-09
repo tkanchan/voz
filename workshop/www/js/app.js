@@ -19650,17 +19650,27 @@ var map;
 
 mapsapi().then(function (maps) {
 
-	map = new google.maps.Map(document.getElementById('map'), {
-		center: { lat: -34.397, lng: 150.644 },
-		zoom: 8,
-		disableDefaultUI: true
-	});
+  map = new google.maps.Map(document.getElementById('map'), {
+    center: { lat: 38.9001899999, lng: -77.0276488 },
+    zoom: 8,
+    disableDefaultUI: true
+  });
 
-	var marker = new google.maps.Marker({
-		position: { lat: -34.397, lng: 150.644 },
-		map: map,
-		title: 'Hello World!'
-	});
+  var contentString = '<div id="content">' + '<div id="siteNotice">' + '</div>' + '<h1 id="firstHeading" class="firstHeading">Flan</h1>' + '<div id="bodyContent">' + '<p><b>Flan</b>, is a rich custard desert with ' + 'a layer of soft caramel on top.' + 'Originating from the Spanish and French culture, this pastry has become very popular amongst Americans.</p>' + '(last visited October 30, 2015).</p> <p>Review: This is a great dessert!!</p><p style="color: green;"> <b>score:</b> 96%</p>' + '</div>' + '</div>';
+
+  var infowindow = new google.maps.InfoWindow({
+    content: contentString
+  });
+
+  var marker = new google.maps.Marker({
+    position: { lat: 38.9001899999, lng: -77.0276488 },
+    map: map,
+    title: 'Hello World!'
+  });
+
+  marker.addListener('click', function () {
+    infowindow.open(map, marker);
+  });
 });
 
 ReactDOM.render(React.createElement(Application, null), document.getElementById('react-application'));
@@ -19712,12 +19722,37 @@ var AddButton = require('./AddButton.react');
 var ListView = require('./ListView.react');
 
 var items = [{
-	title: "For sale!",
-	properties: [{ prop: "Name", val: "Tamal" }],
+	title: "Tamal",
+	properties: [{ prop: "Food", val: "Tamal" }],
 	image: "http://foodnetwork.sndimg.com/content/dam/images/food/fullset/2011/11/14/0/FNM_120111-Tamale-Festival-007_s4x3.jpg.rend.sni12col.landscape.jpeg"
 }, {
-	title: "Food!",
-	properties: [{ prop: "Name", val: "Taco" }, { prop: "Price", val: "$12/ea." }]
+	title: "Flan",
+	properties: [{ prop: "Dessert", val: "Flan" }],
+	image: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Flan_en_Potes.jpg/1280px-Flan_en_Potes.jpg"
+}, {
+	title: "Churro",
+	properties: [{ prop: "Dessert", val: "Churro" }],
+	image: "https://upload.wikimedia.org/wikipedia/commons/8/84/Multitud_de_churros.jpg"
+}, {
+	title: "Creme Brulee",
+	properties: [{ prop: "Dessert", val: "Creme Bruelee" }],
+	image: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Creme_brulee.jpg/1920px-Creme_brulee.jpg"
+}, {
+	title: "Marizpan",
+	properties: [{ prop: "Dessert", val: "Marizpan" }],
+	image: "https://upload.wikimedia.org/wikipedia/commons/c/cd/Marzipanfr%C3%BCchte.jpg"
+}, {
+	title: "Pinchos",
+	properties: [{ prop: "Snacks", val: "Pinchos" }],
+	image: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Pinchos_laguardia.jpg/1920px-Pinchos_laguardia.jpg"
+}, {
+	title: "Empanada",
+	properties: [{ prop: "Food", val: "Empanada" }],
+	image: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/Empanada_-_Stu_Spivack.jpg/1920px-Empanada_-_Stu_Spivack.jpg"
+}, {
+	title: "Mollete",
+	properties: [{ prop: "Food", val: "Mollete" }],
+	image: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Mollete.jpg/1920px-Mollete.jpg"
 }];
 
 var Application = React.createClass({
@@ -19725,7 +19760,8 @@ var Application = React.createClass({
 
 	getInitialState: function getInitialState() {
 		return {
-			listViewShown: false
+			listViewShown: false,
+			items: items
 		};
 	},
 
@@ -19736,7 +19772,18 @@ var Application = React.createClass({
 	},
 
 	search: function search(searchKey) {
-		console.log(searchKey); //implement searching have a default dataset and a searched/filtered dataset
+		// if (searchKey.length > 0){
+		// 	this.setState({
+		// 		listViewShown: true
+		// 	});
+		// }
+
+		this.setState({
+			listViewShown: true,
+			items: items.filter(function (element) {
+				return element.title.toLowerCase().indexOf(searchKey.toLowerCase()) > -1;
+			})
+		});
 	},
 
 	render: function render() {
@@ -19745,7 +19792,7 @@ var Application = React.createClass({
 				'div',
 				{ className: 'root' },
 				React.createElement(TopBar, { search: this.search, toggleListView: this.showListView }),
-				React.createElement(ListView, { items: items }),
+				React.createElement(ListView, { items: this.state.items }),
 				React.createElement(AddButton, null)
 			);
 		}
@@ -19823,7 +19870,7 @@ var TopBar = React.createClass({
 				this.state.data.properties.map(function (prop) {
 					return React.createElement(
 						"p",
-						{ style: propStyle },
+						{ key: prop.val, style: propStyle },
 						prop.prop,
 						" | ",
 						prop.val
@@ -19853,17 +19900,11 @@ var topBarStyle = {
 var TopBar = React.createClass({
 	displayName: 'TopBar',
 
-	getInitialState: function getInitialState() {
-		return {
-			items: this.props.items
-		};
-	},
-
 	render: function render() {
 		return React.createElement(
 			'div',
 			{ className: 'list', style: topBarStyle },
-			this.state.items.map(function (data) {
+			this.props.items.map(function (data) {
 				return React.createElement(Item, { key: data.title, data: data });
 			})
 		);
@@ -19910,11 +19951,18 @@ var Search = React.createClass({
 		this.setInputValue(inputValue);
 	},
 
+	handleSubmit: function handleSubmit(event) {
+		if (event.keyCode == 13) {
+			this.props.searchFunction(this.state.searchKey);
+			return false;
+		}
+	},
+
 	render: function render() {
 		return React.createElement(
 			'div',
 			{ className: 'search', style: searchContainer },
-			React.createElement('input', { type: 'text', style: searchStyle, onChange: this.handleInputValueChange, onAction: this.props.searchFunction(this.state.searchKey), value: this.state.inputValue })
+			React.createElement('input', { type: 'text', style: searchStyle, onChange: this.handleInputValueChange, onKeyDown: this.handleSubmit, value: this.state.inputValue })
 		);
 	}
 });

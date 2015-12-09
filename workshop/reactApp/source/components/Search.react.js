@@ -29,13 +29,20 @@ var Search = React.createClass({
 
 	handleInputValueChange: function(event) {
 		var inputValue = event.target.value;
-		this.setInputValue(inputValue);
+         this.setInputValue(inputValue);
+	},
+
+	handleSubmit: function(event) {
+		if (event.keyCode == 13) {
+            this.props.searchFunction(this.state.searchKey);
+            return false;
+         }
 	},
 
 	render: function () {
 		return (
 			<div className="search" style={searchContainer}>
-				<input type="text"  style={searchStyle} onChange={this.handleInputValueChange} onAction={this.props.searchFunction(this.state.searchKey)} value={this.state.inputValue} />
+				<input type="text"  style={searchStyle} onChange={this.handleInputValueChange} onKeyDown={this.handleSubmit} value={this.state.inputValue} />
 			</div>
 		);
 	}
