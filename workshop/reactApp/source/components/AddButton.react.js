@@ -4,7 +4,7 @@ var buttonStyle = {
 	fontSize: '20px',
 	color: '#fff',
 	paddingTop: '14px',
-	paddingLeft: '15px',
+	paddingLeft: '15px'
 };
 
 var backgroundStyle = {
@@ -16,14 +16,15 @@ var backgroundStyle = {
 	boxShadow: "0 0 5px 1px #888888",
 	display: 'block',
 	position: 'absolute',
-	bottom: '0'
+	bottom: '0',
+	cursor: 'pointer'
 }
 
 var AddButton = React.createClass({ 
 
 	render: function () {
 		return (
-			<div className="addButton" style={backgroundStyle}>
+			<div className="addButton" style={backgroundStyle} onClick={this.props.showPosts}>
 				<span className="glyphicon glyphicon-plus" style={buttonStyle} aria-hidden="true"></span>
 			</div>
 		);

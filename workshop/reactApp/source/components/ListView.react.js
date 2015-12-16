@@ -17,7 +17,7 @@ var TopBar = React.createClass({
 			<div className="list" style={topBarStyle} >
 				{
 					this.props.items.map(function(data) {
-						return <Item key={data.title} data={data} />
+						return <Item key={data.name} data={data} />
 					})
 				}
 			</div>
