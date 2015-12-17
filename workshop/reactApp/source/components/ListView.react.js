@@ -1,7 +1,7 @@
 var React = require('react');
 var Item = require ('./Item.react');
 
-var topBarStyle = {
+var listViewStyle = {
 	width: '100%',
 	height: 'auto',
 	backgroundColor: '#fff',
@@ -10,11 +10,11 @@ var topBarStyle = {
 };
 
 
-var TopBar = React.createClass({ 
+var ListView = React.createClass({ 
 
 	render: function () {
 		return (
-			<div className="list" style={topBarStyle} >
+			<div className="list" style={listViewStyle} >
 				{
 					this.props.items.map(function(data) {
 						return <Item key={data.name} data={data} />
@@ -25,4 +25,4 @@ var TopBar = React.createClass({
 	}
  });
 
-module.exports = TopBar;
+module.exports = ListView;

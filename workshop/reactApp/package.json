@@ -22,9 +22,13 @@
     "events": "^1.1.0",
     "flux": "^2.1.1",
     "google-maps-api": "^1.1.0",
+    "gulp-streamify": "^1.0.2",
+    "gulp-uglify": "^1.5.1",
+    "jshint": "^2.8.0",
     "object-assign": "^4.0.1",
     "react": "^0.14.0",
-    "react-dom": "^0.14.0-beta3"
+    "react-dom": "^0.14.0-beta3",
+    "reqwest": "^2.0.5"
   },
   "jest": {
     "scriptPreprocessor": "<rootDir>/node_modules/babel-jest",

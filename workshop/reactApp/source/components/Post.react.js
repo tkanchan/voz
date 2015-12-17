@@ -59,7 +59,8 @@ var Post = React.createClass({
 			fields: new Array(),
 			newFieldKey: '',
 			newFieldValue: '',
-			newLocation: ''
+			newLocation: '',
+			locationStatus: ''
 		}
 	},
 

@@ -1,14 +1,14 @@
-jest.dontMock('../Button.react');
+jest.dontMock('../Post.react');
 
 describe('Button component', function () {
 	it('calls handler function on click', function() {
 		var React = require('react');
 		var TestUtils = require('react-addons-test-utils');
-		var Button = require('../Button.react');
-		var handleClick = jest.genMockFunction();
+		var Post = require('../Button.react');
+		var hidePostView = jest.genMockFunction();
 
-		var button = TestUtils.renderIntoDocument(
-			<Button handleClick={handleClick} />
+		var post = TestUtils.renderIntoDocument(
+			<Post hidePostView={this.hidePostView} />
 		);
 
 		var buttonInstance = TestUtils.findRenderedDOMComponentWithTag(button, 'button');

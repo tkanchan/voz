@@ -19,6 +19,9 @@ var Application = React.createClass({
 	componentDidMount: function() {
 		PostActions.getPosts();
 		PostStore.addChangeListener(this.onPostsChange);
+		this.setState({
+			items: PostStore.getPosts(),
+		});
 	},
 
 	componentWillUnmount: function() {

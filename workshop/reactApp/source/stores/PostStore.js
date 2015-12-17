@@ -14,7 +14,7 @@ mapsapi().then( function( maps ) {
 });
 
 var posts = null;
-var markers = new Array()
+var markers = new Array();
 
 function setPost(receivedPosts) {
 	posts = receivedPosts;
