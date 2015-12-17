@@ -4,7 +4,7 @@ import request from 'reqwest';
 export default {
   savePost: function(name, fields, position) {
     request({
-      url: '45.55.182.4/voz/post',
+      url: 'http://45.55.182.4/voz/post',
       method: 'POST',
       crossOrigin: true,
       data: {
@@ -21,7 +21,7 @@ export default {
   },
   getPosts: function() {
     request({
-      url: '45.55.182.4/voz/post',
+      url: 'http://45.55.182.4/voz/post',
       method: 'GET',
       crossOrigin: true
     }).then((res) => {
